@@ -7,6 +7,7 @@ namespace N_Club_Pakkelegs_Assistent
 {
     class AssistantController
     {
+        private string _url = "https://n-club.dk/klubben/pakkeleg/";
         private string _data;
         private string _username;
         private int _gifts = 3000;
@@ -14,7 +15,8 @@ namespace N_Club_Pakkelegs_Assistent
         private int _desiredPresents;
         private string _generalMessage = "";
         private DataManager _dManager = new DataManager();
-        private SoundPlayer player;
+        private SoundPlayer _player;
+        private PresentSnatcher _pSnatcher = new PresentSnatcher();
 
         public int UserGifts
         {
@@ -40,7 +42,7 @@ namespace N_Club_Pakkelegs_Assistent
         // Get the current data from N-Club
         private void UpdateData()
         {
-            _data = _dManager.GetWebsiteData();
+            _data = _dManager.GetWebsiteData(_url);
             TrimData();
         }
 
@@ -121,12 +123,12 @@ namespace N_Club_Pakkelegs_Assistent
             switch (soundValue)
             {
                 case 1:
-                    player = new System.Media.SoundPlayer(@".\Sounds\Pay Attention.wav");
-                    player.Play();
+                    _player = new System.Media.SoundPlayer(@".\Sounds\Pay Attention.wav");
+                    _player.Play();
                     break;
                 case 2:
-                    player = new System.Media.SoundPlayer(@".\Sounds\Train Tune.wav");
-                    player.Play();
+                    _player = new System.Media.SoundPlayer(@".\Sounds\Train Tune.wav");
+                    _player.Play();
                     break;
             }
             IconFlasher.FlashWindow(Process.GetCurrentProcess().MainWindowHandle);
@@ -145,7 +147,14 @@ namespace N_Club_Pakkelegs_Assistent
             _userGifts = CountOccurrencesOfString(_data, _username);
             GetNumberOfGifts();
             UpdateTextColour(_userGifts);
-            return CreateStatusMessage(_userGifts);
+            string message = CreateStatusMessage(_userGifts);
+
+            return message;
         }
+
+        //public string StealPresent()
+        //{
+        //    return _pSnatcher.StealPresent(_username, _desiredPresents);
+        //}
     }
 }

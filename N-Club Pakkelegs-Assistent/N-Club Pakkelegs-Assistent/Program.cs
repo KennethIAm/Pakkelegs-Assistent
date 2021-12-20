@@ -55,7 +55,6 @@ namespace N_Club_Pakkelegs_Assistent
                 else if (assistantController.UserGifts < assistantController.DesiredGifts)
                 {
                     assistantController.NotifyUser(1);
-                    
                 }
 
                 Thread.Sleep(60000);

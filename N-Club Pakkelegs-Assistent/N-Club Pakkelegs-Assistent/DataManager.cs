@@ -5,11 +5,10 @@ namespace N_Club_Pakkelegs_Assistent
 {
     class DataManager
     {
-        private string url = "https://n-club.dk/klubben/pakkeleg/";
 
 
         // Get the current data from N-Club
-        public string GetWebsiteData()
+        public string GetWebsiteData(string url)
         {
             using (WebClient client = new WebClient())
             {
